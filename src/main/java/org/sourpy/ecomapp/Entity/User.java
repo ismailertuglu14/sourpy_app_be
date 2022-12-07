@@ -15,13 +15,14 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
     private String username;
     private String password;
     private String name;
     private String surname;
     private String email;
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<Api> apis;
+    private List<UserApi> userApis;
 }

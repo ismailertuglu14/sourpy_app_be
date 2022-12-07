@@ -1,20 +1,18 @@
 package org.sourpy.ecomapp.Service;
 
 import lombok.AllArgsConstructor;
-import org.sourpy.ecomapp.Dto.UserCreateDto;
+import org.sourpy.ecomapp.Dto.UserRequest;
 import org.sourpy.ecomapp.Entity.User;
 import org.sourpy.ecomapp.Exception.UserNotFoundException;
 import org.sourpy.ecomapp.Repository.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    public User createUser(UserCreateDto userInfo) {
+    public User createUser(UserRequest userInfo) {
         return userRepository.save(User.builder()
                 .name(userInfo.getName())
                 .surname(userInfo.getSurname())
@@ -24,7 +22,8 @@ public class UserService {
         );
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    public User getUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }

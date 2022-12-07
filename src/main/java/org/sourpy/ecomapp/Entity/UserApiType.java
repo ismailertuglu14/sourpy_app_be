@@ -1,5 +1,5 @@
 package org.sourpy.ecomapp.Entity;
 
-public enum ApiType {
+public enum UserApiType {
     Trendyol,Hepsiburada,Amazon
 }

@@ -3,7 +3,7 @@ package org.sourpy.ecomapp.Dto;
 import lombok.Data;
 
 @Data
-public class UserCreateDto {
+public class UserRequest {
     private String username;
     private String password;
     private String name;
