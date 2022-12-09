@@ -3,6 +3,7 @@ package org.sourpy.ecomapp.Controller;
 import lombok.AllArgsConstructor;
 import org.sourpy.ecomapp.Dto.UserApiRequest;
 import org.sourpy.ecomapp.Dto.UserApiResponse;
+import org.sourpy.ecomapp.Dto.UserApiTypes;
 import org.sourpy.ecomapp.Entity.UserApi;
 import org.sourpy.ecomapp.Service.UserApiService;
 import org.springframework.http.HttpStatus;
@@ -25,5 +26,10 @@ public class UserApiController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<UserApiResponse>> getUserApis(@PathVariable Long userId){
         return new ResponseEntity<>(userApiService.getUserApis(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/types/{userId}")
+    public ResponseEntity<UserApiTypes> getUserApiTypes(@PathVariable Long userId){
+        return new ResponseEntity<>(userApiService.getUserApiTypes(userId), HttpStatus.OK);
     }
 }

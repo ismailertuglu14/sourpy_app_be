@@ -18,6 +18,8 @@ public class UserApi {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String apiKey;
+    private String apiSecretKey;
+    private String sellerId;
     @Enumerated(EnumType.STRING)
     private UserApiType userApiType;
     @ManyToOne

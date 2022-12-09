@@ -8,6 +8,8 @@ import org.sourpy.ecomapp.Entity.UserApiType;
 @Builder
 public class UserApiRequest {
     private String api_key;
+    private String api_secret_key;
+    private String seller_id;
     private UserApiType api_type;
     private Long user_id;
 }
