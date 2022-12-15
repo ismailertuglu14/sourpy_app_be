@@ -5,13 +5,21 @@ import org.sourpy.ecomapp.Dto.*;
 import org.sourpy.ecomapp.Entity.User;
 import org.sourpy.ecomapp.Exception.ExceptionHandler;
 import org.sourpy.ecomapp.Repository.UserRepository;
+import org.sourpy.ecomapp.Security.TokenUtils;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     public User createUser(UserRequest userInfo) {
         return userRepository.save(User.builder()
                 .name(userInfo.getName())
@@ -33,13 +41,13 @@ public class UserService {
     }
 
     public LoginResponse loginUser(LoginRequest loginInfo) {
-        User user = getUserByUsername(loginInfo.getUsername());
-        if(!user.getPassword().equals(loginInfo.getPassword())){
-            throw new ExceptionHandler("Password incorrect!");
-        }
-        return LoginResponse.builder()
+        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword()));
+        User user = getUserByUsername(((UserDetails) auth.getPrincipal()).getUsername());
+        return LoginResponse
+                .builder()
                 .username(loginInfo.getUsername())
                 .message("Logged in successfully.")
+                .token(TokenUtils.createToken(user.getId(),user.getUsername()))
                 .build();
     }
 
@@ -52,13 +60,24 @@ public class UserService {
                 .name(registerInfo.getName())
                 .surname(registerInfo.getSurname())
                 .username(registerInfo.getUsername())
-                .password(registerInfo.getPassword())
+                .password(passwordEncoder.encode(registerInfo.getPassword()))
                 .email(registerInfo.getEmail()).build()
         );
 
         return RegisterResponse.builder()
                 .username(registerInfo.getUsername())
                 .message("Successfully registered.")
+                .build();
+    }
+
+    public LoginResponse isLoggedIn(String token) {
+        token = token.replace("Bearer ","");
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        return LoginResponse
+                .builder()
+                .username(name)
+                .message("User still active.")
+                .token(token)
                 .build();
     }
 }

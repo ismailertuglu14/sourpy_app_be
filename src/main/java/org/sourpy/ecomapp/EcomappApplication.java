@@ -8,16 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class EcomappApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(EcomappApplication.class, args);
-	}
-
-	@Configuration
-	public class WebConfiguration implements WebMvcConfigurer {
-		@Override
-		public void addCorsMappings(CorsRegistry registry) {
-			registry.addMapping("/**").allowedMethods("*");
-		}
 	}
 }
