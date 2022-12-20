@@ -35,20 +35,20 @@ public class TrendyolService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<String> json = restTemplate.exchange(baseURL+"suppliers/"+sellerId+"/products", HttpMethod.GET,entity, String.class);
+        ProductList list = null;
         try {
-            ProductList list = objectMapper.readValue(json.getBody(),ProductList.class);
-            return new ResponseEntity<>(list.getContent()
-                    .stream()
-                    .map(productTrendyol -> {
-                        return TrendyolListResponse
-                                .builder()
-                                .title(productTrendyol.getTitle())
-                                .salePrice(productTrendyol.getSalePrice())
-                                .build();
-                    }).collect(Collectors.toList()),HttpStatus.OK);
+            list = objectMapper.readValue(json.getBody(),ProductList.class);
+
         }catch (Exception e){
             System.out.println(e);
         }
-        return null;
+
+        return new ResponseEntity<>(list.getContent()
+                .stream()
+                .map(productTrendyol -> TrendyolListResponse
+                        .builder()
+                        .title(productTrendyol.getTitle())
+                        .salePrice(productTrendyol.getSalePrice())
+                        .build()).collect(Collectors.toList()),HttpStatus.OK);
     }
 }

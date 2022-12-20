@@ -6,7 +6,6 @@ import org.sourpy.ecomapp.Dto.UserApiResponse;
 import org.sourpy.ecomapp.Dto.UserApiTypes;
 import org.sourpy.ecomapp.Entity.UserApi;
 import org.sourpy.ecomapp.Entity.User;
-import org.sourpy.ecomapp.Entity.UserApiType;
 import org.sourpy.ecomapp.Repository.UserApiRepository;
 import org.springframework.stereotype.Service;
 
