@@ -47,8 +47,8 @@ public class TrendyolService {
                 .stream()
                 .map(productTrendyol -> TrendyolListResponse
                         .builder()
-                        .title(productTrendyol.getTitle())
-                        .salePrice(productTrendyol.getSalePrice())
+                        .productCode(productTrendyol.getProductCode())
+                        .pimCategoryId(productTrendyol.getPimCategoryId())
                         .build()).collect(Collectors.toList()),HttpStatus.OK);
     }
 }

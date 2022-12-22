@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class TrendyolListResponse {
-    String title;
-    int salePrice;
+    int productCode;
+    int pimCategoryId;
 }
